@@ -433,7 +433,7 @@
         <div class="form-section">
           <h3>Informations sur la société</h3>
           <label for="Adresse">Adresse entrée :</label>
-          <input type="text" id="Adresse" name="Adresse" readonly />
+          <input type="text" id="Adresse" name="Adresse"  />
           <label for="companyName">Société :</label>
           <input type="text" id="companyName" name="companyName"/>
           <label for="activity">Activité :</label>
@@ -591,6 +591,8 @@
           <!-- Bloc récapitulatif placé en haut du contenu de l'onglet -->
           <div id="preconisationSummary" style="margin-top:10px;">
             <p><strong>Puissance préconisée :</strong> <span id="puissanceReco">-</span> kWc</p>
+            <p><strong>Autoprod :</strong> <span id="autoprodReco">-</span> %</p>
+
             <p><strong>Coût de l'installation :</strong> <span id="coutInstallation">-</span> €</p>
             <p><strong>Prime :</strong> <span id="primeValue">-</span> €</p>
             <p><strong>Remise :</strong> <input type="number" id="remise" name="remise" value="0" style="width: 100px;" /> €</p>
@@ -606,9 +608,9 @@
           <label for="tarifRachat">Tarif de rachat du surplus (€/kWh) :</label>
           <input type="number" step="0.0001" id="tarifRachat" name="tarifRachat" value="0.0761" disabled />
           <label for="ratioDiurne">Ratio diurne (%) :</label>
-          <input type="number" id="ratioDiurne" name="ratioDiurne" value="60" min="0" max="100" />
+          <input type="number" id="ratioDiurne" name="ratioDiurne" value="80" min="0" max="100" />
           <label>
-            <input type="checkbox" id="showKwhColumns" name="showKwhColumns" />
+            <input type="checkbox" id="showKwhColumns" name="showKwhColumns" checked />
             Kwh visible
           </label>
           <button type="button" id="calculatePreconisation">Calculer la préconisation</button>
@@ -675,11 +677,26 @@
             <p><strong>ROI (années) :</strong> <span id="roiResultForced">-</span></p>
             <p><strong>Nombre de modules :</strong> <span id="nombreModulesForced">-</span></p>
             <p><strong>Surface de l'installation m² :</strong> <span id="surfaceInstallationForced">-</span></p>
+              <p><strong>Économies moyennes mensuelles sur 20 ans :</strong>
+     <span id="ecoMoyMensuelleForced">-</span> €
+  </p>
+  <p><strong>Loyer :</strong>
+     <span id="loyerForced">-</span> €
+  </p>
+  <p><strong>Nombre de mois :</strong>
+     <span id="dureeForced">-</span>
+  </p>
+  <p>
+  <strong>Taux autoprod :</strong>
+  <span id="tauxAutoprodForced">-</span> %
+</p>
+
           </div>
+            
           <label for="forcedPower">Installation choisie (kWc) :</label>
           <input type="number" id="forcedPower" name="forcedPower" value="10" min="1" />
           <button type="button" id="applyForcedPreconisationBtn">Calculer la préconisation choisie</button>
-          <button type="button" id="batchReportBtn">Générer rapport multi-puissances</button>
+          <button type="button" id="batchReportBtn">calcul puissance avec autoprod choisie</button>
           <h4>Détails par mois (année 1) - Sélection</h4>
           <table id="preconisationMonthlyTableForced"></table>
           <h4>Graphique (Détails par mois) - Sélection</h4>
@@ -736,45 +753,59 @@
       </div><!-- fin tab10 -->
 
       <!-- TAB 11 : Paramètres -->
-      <div id="tab11" class="tabContent">
-        <div class="tabLogo">
-          <img src="https://raw.githubusercontent.com/m2arek/parallele/main/frh_pro_logo.png" alt="FRH Pro Logo"/>
-          <h2>Paramètres</h2>
-        </div>
-        <div class="form-section">
-          <h3>Charges photovoltaïques courantes</h3>
-          <label for="assurance_dommages">Assurance dommages et RCP % :</label>
-          <input type="text" id="assurance_dommages" name="assurance_dommages" value="0.20" />
-          <label for="assurance_perte">Assurance perte d'exploitation % :</label>
-          <input type="text" id="assurance_perte" name="assurance_perte" value="0.30" />
-          <label for="cout_maintenance">Coût maintenance préventive/curative/nettoyage (€/kWc) :</label>
-          <input type="text" id="cout_maintenance" name="cout_maintenance" value="5.97" />
-        </div>
-        <div class="form-section">
-          <h3>Evolution liée au vieillissement de la centrale</h3>
-          <label for="cout_reparations">Coût réparations courantes % :</label>
-          <input type="text" id="cout_reparations" name="cout_reparations" value="0.19" />
-          <label for="cout_changement_onduleurs">Coût changement onduleurs :</label>
-          <input type="text" id="cout_changement_onduleurs" name="cout_changement_onduleurs" value="" placeholder="Saisir valeur" />
-          <label for="perte_puissance">Perte puissance annuelle des panneaux % :</label>
-          <input type="text" id="perte_puissance" name="perte_puissance" value="0.60" />
-        </div>
-        <div class="form-section">
-          <h3>Paramètres financiers généraux</h3>
-          <label for="inflation_estimee">Inflation estimée (%/an) :</label>
-          <input type="text" id="inflation_estimee" name="inflation_estimee" value="2.00" />
-          <label for="taux_emprunt">Taux emprunt % :</label>
-          <input type="text" id="taux_emprunt" name="taux_emprunt" value="2.00" />
-          <label for="duree_pret">Durée prêt en années :</label>
-          <input type="number" id="duree_pret" name="duree_pret" value="" placeholder="Saisir durée" />
-          <label for="taux_autofinancement">Taux autofinancement :</label>
-          <input type="text" id="taux_autofinancement" name="taux_autofinancement" value="" placeholder="Saisir taux" />
-          <label for="index_leasing">Index du leasing :</label>
-          <input type="text" id="index_leasing" name="index_leasing" value="1.837" />
-          <label for="duree_leasing">Durée du leasing (mois) :</label>
-          <input type="number" id="duree_leasing" name="duree_leasing" value="72" />
-        </div>
-      </div><!-- fin tab11 -->
+<div id="tab11" class="tabContent">
+  <div class="tabLogo">
+    <img src="https://raw.githubusercontent.com/m2arek/parallele/main/frh_pro_logo.png" alt="FRH Pro Logo"/>
+    <h2>Paramètres</h2>
+  </div>
+
+  <div class="form-section">
+    <h3>Charges photovoltaïques courantes</h3>
+    <label for="assurance_dommages">Assurance dommages et RCP % :</label>
+    <input type="text" id="assurance_dommages" name="assurance_dommages" value="0.20" />
+    <label for="assurance_perte">Assurance perte d'exploitation % :</label>
+    <input type="text" id="assurance_perte" name="assurance_perte" value="0.30" />
+    <label for="cout_maintenance">Coût maintenance préventive/curative/nettoyage (€/kWc) :</label>
+    <input type="text" id="cout_maintenance" name="cout_maintenance" value="5.97" />
+  </div>
+
+  <div class="form-section">
+    <h3>Évolution liée au vieillissement de la centrale</h3>
+    <label for="cout_reparations">Coût réparations courantes % :</label>
+    <input type="text" id="cout_reparations" name="cout_reparations" value="0.19" />
+    <label for="cout_changement_onduleurs">Coût changement onduleurs :</label>
+    <input type="text" id="cout_changement_onduleurs" name="cout_changement_onduleurs" placeholder="Saisir valeur" />
+    <label for="perte_puissance">Perte puissance annuelle des panneaux % :</label>
+    <input type="text" id="perte_puissance" name="perte_puissance" value="0.60" />
+  </div>
+
+  <div class="form-section">
+    <h3>Paramètres financiers généraux</h3>
+    <label for="inflation_estimee">Inflation estimée (%/an) :</label>
+    <input type="text" id="inflation_estimee" name="inflation_estimee" value="2.00" />
+    <label for="taux_emprunt">Taux emprunt % :</label>
+    <input type="text" id="taux_emprunt" name="taux_emprunt" value="2.00" />
+    <label for="duree_pret">Durée prêt en années :</label>
+    <input type="number" id="duree_pret" name="duree_pret" placeholder="Saisir durée" />
+    <label for="taux_autofinancement">Taux autofinancement :</label>
+    <input type="text" id="taux_autofinancement" name="taux_autofinancement" placeholder="Saisir taux" />
+    <label for="index_leasing">Index du leasing :</label>
+    <input type="text" id="index_leasing" name="index_leasing" value="1.837" />
+    <label for="duree_leasing">Durée du leasing (mois) :</label>
+    <input type="number" id="duree_leasing" name="duree_leasing" value="72" />
+  </div>
+
+  <!-- Nouveau champ -->
+  <div class="form-section">
+    <h3>Affichage du plan de trésorerie</h3>
+    <label for="affichagePlanTreso">Afficher la page “Plan de trésorerie” :</label>
+    <select id="affichagePlanTreso" name="affichagePlanTreso">
+      <option value="non" selected>Non</option>
+      <option value="oui">Oui</option>
+    </select>
+  </div>
+</div><!-- fin tab11 -->
+
 
       <!-- TAB 12 : Plan de trésorerie -->
 <div id="tab12" class="tabContent">
@@ -787,7 +818,7 @@
     <label for="financementMode">Mode de financement :</label>
     <select id="financementMode" name="financementMode">
       <option value="banque">Financement bancaire</option>
-      <option value="leasing">Leasing</option>
+      <option value="leasing" selected>Leasing</option>
     </select>
     
     <!-- Nouveau sélecteur pour choisir le Leaser -->
@@ -795,7 +826,7 @@
     <select id="leasingCompany" name="leasingCompany">
       <option value="" disabled selected>Choisir un Leaser</option>
       <option value="Leasecom">Leasecom</option>
-      <option value="Grenke">Grenke</option>
+      <option value="Grenke" selected>Grenke</option>
     </select>
     
     <!-- Nouveau champ pour le nombre de loyers (durée en mois) -->
@@ -805,7 +836,7 @@
     <label for="scenarioPlan">Scénario de préconisation :</label>
     <select id="scenarioPlan" name="scenarioPlan">
       <option value="standard">Préconisation standard</option>
-      <option value="selection">Préconisation Sélection</option>
+      <option value="selection" selected>Préconisation Sélection</option>
     </select>
     <button type="button" id="calculateTresorerieBtn">Calculer le plan de trésorerie</button>
   </div>
@@ -1300,163 +1331,178 @@
   }
   return null;
 }
+ // ── Flag global ──
+  let manualLeaseOverride = false;
 
+  // ── Dès que la page est chargée ──
+  window.addEventListener("load", () => {
+    const leaseInput = document.getElementById("leaseDuration");
+    // Si l'utilisateur tape dedans, on active l'override
+    leaseInput.addEventListener("input", () => {
+      manualLeaseOverride = true;
+    });
+  });
 
-function calculatePlanTresorerie(){
+function calculatePlanTresorerie() {
+  // Récupération des sélections
   const financementMode = document.getElementById("financementMode").value;
-  const scenarioPlan = document.getElementById("scenarioPlan").value;
-  
-  // Mise à jour dynamique de l'en-tête : le 3ème titre passe à "Loyer" si leasing
-  const headerRow = document.getElementById("planTresorerieHeader").querySelector("tr");
-  if(financementMode === "leasing") {
-    headerRow.cells[2].innerHTML = "Loyer";
-  } else {
-    headerRow.cells[2].innerHTML = "Remboursement du prêt";
-  }
-  
+  const leasingCompany  = document.getElementById("leasingCompany").value;
+  const scenarioPlan    = document.getElementById("scenarioPlan").value;
+
+  // 1) Ajustement du titre de la 3ᵉ colonne
+  const headerRow = document
+    .getElementById("planTresorerieHeader")
+    .querySelector("tr");
+  headerRow.cells[2].innerHTML =
+    financementMode === "leasing" ? "Loyer" : "Remboursement du prêt";
+
+  // 2) Recettes année 1
   let autoYear1_val, surplus_val;
-  if(scenarioPlan === "standard"){
-    autoYear1_val = parseFloat(document.getElementById("monthlyTotalAuto").textContent.replace("€","").trim());
-    surplus_val = parseFloat(document.getElementById("monthlyTotalRevente").textContent.replace("€","").trim());
+  if (scenarioPlan === "standard") {
+    autoYear1_val = parseFloat(
+      document.getElementById("monthlyTotalAuto").textContent.replace("€", "")
+    ) || 0;
+    surplus_val = parseFloat(
+      document.getElementById("monthlyTotalRevente").textContent.replace("€", "")
+    ) || 0;
   } else {
-    autoYear1_val = parseFloat(document.getElementById("monthlyTotalAutoForced").textContent.replace("€","").trim());
-    surplus_val = parseFloat(document.getElementById("monthlyTotalReventeForced").textContent.replace("€","").trim());
+    autoYear1_val = parseFloat(
+      document.getElementById("monthlyTotalAutoForced").textContent.replace("€", "")
+    ) || 0;
+    surplus_val = parseFloat(
+      document.getElementById("monthlyTotalReventeForced").textContent.replace("€", "")
+    ) || 0;
   }
   const recettesAnnee1 = autoYear1_val + surplus_val;
-  
+
+  // 3) Coût HT d'installation
   let installationCostHT = 0;
-  if(scenarioPlan === "standard"){
-    installationCostHT = parseFloat(document.getElementById("coutInstallation").textContent.replace(/[^0-9.]/g,"")) || 0;
+  if (scenarioPlan === "standard") {
+    installationCostHT = parseFloat(
+      document.getElementById("coutInstallation")
+        .textContent.replace(/[^0-9.]/g, "")
+    ) || 0;
   } else {
-    installationCostHT = parseFloat(document.getElementById("coutInstallationForced").textContent.replace(/[^0-9.]/g,"")) || 0;
+    installationCostHT = parseFloat(
+      document.getElementById("coutInstallationForced")
+        .textContent.replace(/[^0-9.]/g, "")
+    ) || 0;
   }
-  
-  // Application de la remise, si renseignée
-  let remise = 0;
-  if(scenarioPlan === "standard"){
-    remise = parseFloat(document.getElementById("remise").value) || 0;
-  } else {
-    remise = parseFloat(document.getElementById("remiseForced").value) || 0;
+  // Remise
+  const remise = scenarioPlan === "standard"
+    ? parseFloat(document.getElementById("remise").value) || 0
+    : parseFloat(document.getElementById("remiseForced").value) || 0;
+  installationCostHT = Math.max(0, installationCostHT - remise);
+
+  // 4) ───────── NOUVEAU ─────────
+  // seulement si leasing + Grenke ET sans override manuel
+  if (
+    financementMode === "leasing" &&
+    leasingCompany === "Grenke" &&
+    !manualLeaseOverride
+  ) {
+    const terms = [96, 84, 72, 60];
+    let maxTerm = 0;
+    for (let t of terms) {
+      if (getGrenkeFactor(installationCostHT, t) !== null) {
+        maxTerm = t;
+        break;
+      }
+    }
+    document.getElementById("leaseDuration").value = maxTerm;
   }
-  // Le coût HT effectif est le coût HT moins la remise
-  installationCostHT = installationCostHT - remise;
-  if(installationCostHT < 0) {
-    installationCostHT = 0;
-  }
-  
-  let preconisePower = 0;
-  if(scenarioPlan === "standard"){
-      preconisePower = parseFloat(document.getElementById("puissanceReco").textContent) || 0;
-  } else {
-      preconisePower = parseFloat(document.getElementById("puissanceRecoForced").textContent) || 0;
-  }
-  
-  const inflation = parseFloat(document.getElementById("inflation_estimee").value) || 0;
-  const taux_emprunt = parseFloat(document.getElementById("taux_emprunt").value) || 0;
-  const duree_pret = parseFloat(document.getElementById("duree_pret").value) || 0;
-  const index_leasing = parseFloat(document.getElementById("index_leasing").value) || 0;
-  // Le champ "duree_leasing" est toujours présent pour d'autres références
-  const duree_leasing = parseFloat(document.getElementById("duree_leasing").value) || 0;
-  
+  // ──────── FIN NOUVEAU ────────
+
+  // 5) Paramètres financiers
+  const inflation    = parseFloat(document.getElementById("inflation_estimee").value) || 0;
+  const taux_emprunt = parseFloat(document.getElementById("taux_emprunt").value)    || 0;
+  const duree_pret   = parseFloat(document.getElementById("duree_pret").value)      || 0;
+  const index_leasing= parseFloat(document.getElementById("index_leasing").value)   || 0;
+  const duree_leasing= parseFloat(document.getElementById("leaseDuration").value)   || 0;
+
+  // 6) Calcul du remboursement bancaire annuel
   let annualRepayment = 0;
-  if(financementMode === "banque" && duree_pret > 0){
+  if (financementMode === "banque" && duree_pret > 0) {
     const n = duree_pret * 12;
     const i = taux_emprunt / 100 / 12;
-    const monthlyPayment = installationCostHT * (i * Math.pow(1+i, n)) / (Math.pow(1+i, n) - 1);
+    const monthlyPayment = installationCostHT * (i * Math.pow(1+i, n)) /
+                           (Math.pow(1+i, n) - 1);
     annualRepayment = monthlyPayment * 12;
   }
-  
+
+  // 7) Calcul du leasing annuel
   let annualLeasing = 0;
-  if(financementMode === "leasing"){
-    // Nouveaux champs pour le Leasing
-    const leasingCompany = document.getElementById("leasingCompany").value;
-    // Utilisation du champ "leaseDuration" ajouté en HTML pour la durée choisie
-    const chosenLeaseDuration = parseInt(document.getElementById("leaseDuration").value) || 0;
-    
+  if (financementMode === "leasing") {
     if (leasingCompany === "Leasecom") {
-      // Pour Leasecom, on force 72 mois et on applique la logique existante basée sur index_leasing
       annualLeasing = installationCostHT * (index_leasing/100) * 12;
-    } else if (leasingCompany === "Grenke") {
-      // Pour Grenke, on utilise le tableau de coefficients selon le montant HT et la durée choisie.
-      const factor = getGrenkeFactor(installationCostHT, chosenLeaseDuration);
-      if (factor === null) {
-        alert("La durée de " + chosenLeaseDuration + " mois n'est pas possible pour un montant HT de " 
-              + installationCostHT + " € selon le barème Grenke.");
-        annualLeasing = 0;
+    } else {
+      const factor = getGrenkeFactor(installationCostHT, duree_leasing);
+      if (factor !== null) {
+        annualLeasing = (installationCostHT * factor / 100) * 12;
       } else {
-        const monthlyLease = (installationCostHT * factor) / 100;
-        annualLeasing = monthlyLease * 12;
+        alert(
+          `Durée de ${duree_leasing} mois non valide pour ${installationCostHT.toFixed(2)} € selon Grenke.`
+        );
       }
     }
   }
-  
-  let totalRecettes = 0;
-  let totalFinancement = 0;
-  let totalSoldeNet = 0;
-  
+
+  // 8) Construction du tableau 20 ans
+  let totalRecettes = 0, totalFinancement = 0, totalSoldeNet = 0;
   const tableBody = document.getElementById("planTresorerieBody");
   tableBody.innerHTML = "";
-  
-  for(let year = 1; year <= 20; year++){
-    const factorYear = (year === 1) ? 1 : Math.pow(1 + inflation/100, year-1);
-    
+
+  for (let year = 1; year <= 20; year++) {
+    // Recettes
     let recettes;
-    if(year === 1){
+    if (year === 1) {
       recettes = recettesAnnee1;
     } else {
-      let projTable;
-      if(scenarioPlan === "standard"){
-        projTable = document.getElementById("preconisationTable");
-      } else {
-        projTable = document.getElementById("preconisationTableForced");
-      }
+      const projTable = scenarioPlan === "standard"
+        ? document.getElementById("preconisationTable")
+        : document.getElementById("preconisationTableForced");
       const rows = projTable.querySelectorAll("tbody tr");
-      if(rows.length >= year){
+      if (rows.length >= year) {
         const row = rows[year - 1];
-        const econ = parseFloat(row.cells[2].textContent.replace(/[^0-9.-]+/g,"")) || 0;
+        const econ    = parseFloat(row.cells[2].textContent.replace(/[^0-9.-]+/g,"")) || 0;
         const revente = parseFloat(row.cells[4].textContent.replace(/[^0-9.-]+/g,"")) || 0;
         recettes = econ + revente;
-        if(year === 2) {
-          let S = 0;
-          if(scenarioPlan === "standard"){
-            S = parseFloat(document.getElementById("puissanceReco").textContent) || 0;
-          } else {
-            S = parseFloat(document.getElementById("puissanceRecoForced").textContent) || 0;
-          }
-          const territory = document.getElementById("territory").value || "France Metropolitaine";
-          const tObj = getTarifRachatAndPrime(S, territory);
-          const primeTotal = Math.round(tObj.primeByWc * (S * 1000));
-          recettes += primeTotal;
+        if (year === 2) {
+          const S    = scenarioPlan === "standard"
+            ? parseFloat(document.getElementById("puissanceReco").textContent) || 0
+            : parseFloat(document.getElementById("puissanceRecoForced").textContent) || 0;
+          const tObj = getTarifRachatAndPrime(S, document.getElementById("territory").value);
+          recettes += Math.round(tObj.primeByWc * (S * 1000));
         }
       } else {
         recettes = recettesAnnee1;
       }
     }
-  
+
+    // Coût financement
     let financementCost = 0;
-    if(financementMode === "banque"){
-      financementCost = (year <= duree_pret) ? annualRepayment : 0;
+    if (financementMode === "banque") {
+      financementCost = year <= duree_pret ? annualRepayment : 0;
     } else {
-      // Pour Leasing : le contrat est actif pendant (leaseDuration / 12) années.
-      financementCost = (year <= (parseInt(document.getElementById("leaseDuration").value)/12)) ? annualLeasing : 0;
+      financementCost = year <= (duree_leasing / 12) ? annualLeasing : 0;
     }
-    
+
     const soldeNet = recettes - financementCost;
-    
-    totalRecettes += recettes;
-    totalFinancement += financementCost;
-    totalSoldeNet += soldeNet;
-    
-    const row = document.createElement("tr");
-    row.innerHTML = `
+    totalRecettes   += recettes;
+    totalFinancement+= financementCost;
+    totalSoldeNet   += soldeNet;
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
       <td>${year}</td>
       <td>${recettes.toFixed(2)} €</td>
       <td>${financementCost.toFixed(2)} €</td>
       <td>${soldeNet.toFixed(2)} €</td>
     `;
-    tableBody.appendChild(row);
+    tableBody.appendChild(tr);
   }
-  
+
+  // Totaux
   const totauxRow = document.createElement("tr");
   totauxRow.innerHTML = `
     <th>Totaux</th>
@@ -1466,9 +1512,11 @@ function calculatePlanTresorerie(){
   `;
   tableBody.appendChild(totauxRow);
 }
- 
-const calculateTresorerieBtn = document.getElementById("calculateTresorerieBtn");
-calculateTresorerieBtn.addEventListener("click", calculatePlanTresorerie);
+
+// On relie enfin le bouton
+document.getElementById("calculateTresorerieBtn")
+        .addEventListener("click", calculatePlanTresorerie);
+
 
 
     /***************************************************
@@ -1976,26 +2024,88 @@ calculateTresorerieBtn.addEventListener("click", calculatePlanTresorerie);
       let roiYearsForced = calculateROI(coutReel, autoYear1, surplusYear1, primeTotal, annualPriceIncrease);
       document.getElementById("roiResultForced").textContent = roiYearsForced.toFixed(1);
     }
-    const calcPrecBtn = document.getElementById("calculatePreconisation");
-    calcPrecBtn.addEventListener("click", () => {
-      const territory = document.getElementById("territory").value || "France Metropolitaine";
-      let maxPowerStr = (document.getElementById("puissanceMaxPV").value || "0").replace(/\s/g, "");
-      const maxPower = parseFloat(maxPowerStr) || 0;
-      if(maxPower <= 0){ alert("Puissance max PV non définie ou nulle."); return; }
-      let bestS = 1, bestTotalGain = 0;
-      let bestTerritoryObj = {tarif:0.0761, primeByWc:0};
-      for(let s = 1; s <= maxPower; s++){
-        const tObj = getTarifRachatAndPrime(s, territory);
-        const totalGain = computeAutoAndSurplusForPower(s, tObj.tarif);
-        if(totalGain > bestTotalGain){
-          bestTotalGain = totalGain;
-          bestS = s;
-          bestTerritoryObj = tObj;
-        }
-      }
-      calculatePreconisationWithPower(bestS, bestTotalGain, bestTerritoryObj);
-      document.getElementById("tarifRachat").value = bestTerritoryObj.tarif.toFixed(4);
-    });
+   
+const calcPrecBtn = document.getElementById("calculatePreconisation");
+calcPrecBtn.addEventListener("click", () => {
+  // 1) Récupération du territoire et de la puissance max
+  const territory = document.getElementById("territory").value || "France Metropolitaine";
+  const maxPower = parseFloat(
+    document.getElementById("puissanceMaxPV").value.replace(/\s/g, "")
+  ) || 0;
+  if (maxPower <= 0) {
+    alert("Puissance max PV non définie ou nulle.");
+    return;
+  }
+
+  // 2) Recherche de la puissance S qui maximise le gain financier
+  let bestS = 1, bestTotalGain = 0, bestTerritoryObj = { tarif: 0, primeByWc: 0 };
+  for (let s = 1; s <= maxPower; s++) {
+    const tObj = getTarifRachatAndPrime(s, territory);
+    const totalGain = computeAutoAndSurplusForPower(s, tObj.tarif);
+    if (totalGain > bestTotalGain) {
+      bestTotalGain = totalGain;
+      bestS = s;
+      bestTerritoryObj = tObj;
+    }
+  }
+
+  // 3) Calcul de la préconisation et mise à jour de l’UI
+  calculatePreconisationWithPower(bestS, bestTotalGain, bestTerritoryObj);
+  document.getElementById("tarifRachat").value = bestTerritoryObj.tarif.toFixed(4);
+  const tauxAuto = document.getElementById("monthlyTotalAutoProdPerc").textContent;
+  document.getElementById("autoprodReco").textContent = tauxAuto;
+
+  // 4) Recherche de la puissance S* qui maximise le taux d’autoproduction
+  const ratioD = parseFloat(document.getElementById("ratioDiurne").value) || 50;
+  const fractionClosed = getClosedDaysFraction();
+  let bestAutoRatio = 0, bestAutoS = 1;
+  for (let s = 1; s <= maxPower; s++) {
+    let sumAuto = 0, sumConso = 0;
+    for (let i = 0; i < 12; i++) {
+      const consoKwh = parseFloat(document.getElementById(`kwh_${i}`).value) || 0;
+      sumConso += consoKwh;
+      const E_m = monthlyProductionData[i]?.E_m || 0;
+      const prod = s * E_m;
+      const forced = fractionClosed * prod;
+      const leftover = prod - forced;
+      const diurne = consoKwh * (ratioD / 100);
+      const autoCons = Math.min(leftover, diurne);
+      sumAuto += autoCons;
+    }
+    const ratio = sumConso > 0 ? (sumAuto / sumConso) * 100 : 0;
+    if (ratio > bestAutoRatio) {
+      bestAutoRatio = ratio;
+      bestAutoS = s;
+    }
+  }
+
+  // 5) Si possible, calcul du taux d’autoprod pour 36 kWc
+  let message36 = "";
+  if (maxPower >= 36) {
+    let sumAuto36 = 0, sumConso36 = 0;
+    for (let i = 0; i < 12; i++) {
+      const consoKwh = parseFloat(document.getElementById(`kwh_${i}`).value) || 0;
+      sumConso36 += consoKwh;
+      const E_m = monthlyProductionData[i]?.E_m || 0;
+      const prod = 36 * E_m;
+      const forced = fractionClosed * prod;
+      const leftover = prod - forced;
+      const diurne = consoKwh * (ratioD / 100);
+      sumAuto36 += Math.min(leftover, diurne);
+    }
+    const ratio36 = sumConso36 > 0 ? (sumAuto36 / sumConso36) * 100 : 0;
+    message36 = `\nAvec un 36 kWc l'autoprod sera : ${ratio36.toFixed(1)}%`;
+  }
+
+  // 6) Affichage du pop-up
+  alert(
+    `Le taux d'autoproduction maximum est : ${bestAutoRatio.toFixed(1)}% ` +
+    `avec une puissance de : ${bestAutoS} kWc` +
+    message36
+  );
+});
+
+
    
     let monthlyBarChartForced = null;
     function createMonthlyBarChartForced(monthLabels, consoData, autoData, revData){
@@ -2155,9 +2265,52 @@ calculateTresorerieBtn.addEventListener("click", calculatePlanTresorerie);
       }
       const territoryObj = getTarifRachatAndPrime(S, territory);
       fillMonthlyPreconisationForced(S, territoryObj.tarif);
+
+      // On récupère le taux d'autoproduction global calculé
+  const tauxAutoText = document
+    .getElementById("monthlyTotalAutoProdPercForced")
+    .textContent;
+  document.getElementById("tauxAutoprodForced").textContent = tauxAutoText;
+
       const totalGain = computeAutoAndSurplusForPower(S, territoryObj.tarif);
       fill20YearsPreconisationForced(S, totalGain, territoryObj);
+        // 1) Économies moyennes mensuelles sur 20 ans
+  const brut = parseFloat(
+    document.getElementById("gainSansInvForced")
+      .textContent.replace(/[^0-9\.-]+/g, "")
+  ) || 0;
+  const ecoMoy = (brut / 240).toFixed(2);
+  document.getElementById("ecoMoyMensuelleForced").textContent = ecoMoy;
+
+  // 2) Loyer et durée max selon Grenke
+  const coutInst = parseFloat(
+    document.getElementById("coutInstallationForced")
+      .textContent.replace(/[^0-9\.-]+/g, "")
+  ) || 0;
+  const remiseF = parseFloat(
+    document.getElementById("remiseForced").value
+  ) || 0;
+  const HT = coutInst - remiseF;
+
+  // on teste d’abord 96, puis 84, 72, 60
+  const terms = [96,84,72,60];
+  let bestTerm = null, bestFactor = null;
+  for (let t of terms) {
+    const f = getGrenkeFactor(HT, t);
+    if (f !== null) {
+      bestTerm   = t;
+      bestFactor = f;
+      break;
+    }
+  }
+  const loyer = bestFactor!==null
+    ? Math.floor((HT * bestFactor)/100)
+    : 0;
+  document.getElementById("loyerForced").textContent  = loyer;
+  document.getElementById("dureeForced").textContent = bestTerm || 0;
+  // ─── FIN NOUVEAU ───
     });
+    
     flatpickr("#rdvDate", {
       locale: "fr",
       dateFormat: "d/m/Y"
@@ -2237,7 +2390,7 @@ const fieldY1 = containerY + boxPadding;
 pdf.setFillColor(255, 255, 255);
 pdf.roundedRect(fieldX, fieldY1, fieldWidthFull, lineHeight, 2, 2, "DF");
 pdf.setFontSize(10);
-pdf.text("Adresse: " + document.getElementById("address").value, fieldX + 1, fieldY1 + lineHeight - 2);
+pdf.text("Adresse: " + document.getElementById("Adresse").value, fieldX + 1, fieldY1 + lineHeight - 2);
 
 const fieldY2 = fieldY1 + lineHeight + 2;
 pdf.setFillColor(255, 255, 255);
@@ -2719,14 +2872,20 @@ pdf.text(labelText, synthFieldX2 + 1, synthRow4Y + synthLineHeight - 2);
 
  
   
+// juste avant : lire le choix de l'utilisateur
+const showTreso = document.getElementById('affichagePlanTreso').value === 'oui';
+
+if (showTreso) {
   // -------------------------------
   // PAGE 5 : Tableau "Plan de trésorerie (Annuel)"
   // -------------------------------
   pdf.addPage();
   pdf.setFontSize(14);
   pdf.text("Plan de trésorerie (Annuel)", pageWidth / 2, 60, { align: "center" });
+
   const tresorerieTableEl = document.getElementById("planTresorerieTable");
   if (tresorerieTableEl) {
+    // on génère temporairement pour mesurer la hauteur du tableau
     const tempPdf3 = new jsPDF("p", "mm", "a4");
     tempPdf3.autoTable({
       html: tresorerieTableEl,
@@ -2734,8 +2893,12 @@ pdf.text(labelText, synthFieldX2 + 1, synthRow4Y + synthLineHeight - 2);
       styles: { fontSize: 8, cellPadding: 2 },
       headStyles: { fillColor: [200, 200, 200] }
     });
+
+    // calcul de la position verticale pour centrer le tableau
     const tresoTableHeight = tempPdf3.lastAutoTable.finalY;
     const newStartY3 = (pageHeight - tresoTableHeight) / 2;
+
+    // on ajoute le tableau sur la page 5
     pdf.autoTable({
       html: tresorerieTableEl,
       startY: newStartY3,
@@ -2743,8 +2906,11 @@ pdf.text(labelText, synthFieldX2 + 1, synthRow4Y + synthLineHeight - 2);
       headStyles: { fillColor: [200, 200, 200] }
     });
   } else {
+    // message si absent
     pdf.text("Tableau Plan de trésorerie non disponible", 10, 30);
   }
+}
+
   
   // -------------------------------
   // Fusion avec le template selon territoire
@@ -2828,7 +2994,8 @@ batchReportBtn.addEventListener('click', () => {
     'Facture Sans Centrale','Économies Autoconso','Facture Avec Centrale',
     'Gains Revente','Total Économies','% Auto prod','% Auto conso','% Revente',
     'Prime (€)','Remise (€)','Coût inst. (€)','Coût net (€)',
-    'Gain brut (€)','Gain net (€)','ROI (ans)'
+    'Gain brut (€)','Gain net (€)','Éco mensuelle (€)','Loyer max Grenke (€)',
++  'Durée max (mois)','ROI (ans)'
   ];
   const body = [];
 
@@ -2862,7 +3029,22 @@ batchReportBtn.addEventListener('click', () => {
     const costNet  = clean(document.getElementById('coutReelInstallationForced').textContent);
     const gainBrut = clean(document.getElementById('gainSansInvForced').textContent);
     const gainNet  = clean(document.getElementById('gainAvecInvForced').textContent);
+    const ecoMensuelle = ((parseFloat(gainBrut) || 0) / 240).toFixed(2);
     const roi      = clean(document.getElementById('roiResultForced').textContent);
+     // ── NOUVEAU ── Calcul du loyer et de la durée max Grenke
+  const forcedCost      = parseFloat(clean(document.getElementById('coutInstallationForced').textContent)) || 0;
+  const remiseForced    = parseFloat(clean(document.getElementById('remiseForced').value)) || 0;
+  const installationHT  = forcedCost - remiseForced;
+  const possibleTerms   = [96, 84, 72, 60];
+  let maxTerm = null, maxFactor = null;
+  for (let t of possibleTerms) {
+    const f = getGrenkeFactor(installationHT, t);
+    if (f !== null) { maxTerm = t; maxFactor = f; break; }
+  }
+  const loyerMax   = maxFactor !== null 
+                      ? Math.floor((installationHT * maxFactor) / 100) 
+                      : 0;
+  const dureeMax   = maxTerm || 0;
 
     // dès qu'on atteint le taux cible, on mémorise S (une seule fois)
     const currentPct = parseFloat(pctProd) || 0;
@@ -2871,11 +3053,16 @@ batchReportBtn.addEventListener('click', () => {
     }
 
     body.push([
-      S.toFixed(1), conso, prod, autoKwh, revKwh,
-      sansPv, ecoAuto, avecPv, gainsRev, totalEco,
-      pctProd, pctConso, pctRev,
-      prime, remise, costInst, costNet, gainBrut, gainNet, roi
-    ]);
+    S.toFixed(1), conso, prod, autoKwh, revKwh,
+    sansPv, ecoAuto, avecPv, gainsRev, totalEco,
+    pctProd, pctConso, pctRev,
+    prime, remise, costInst, costNet,
+    gainBrut, gainNet,
+    ecoMensuelle,
++   loyerMax,
++   dureeMax,
+    roi
+  ]);
   }
 
   // on affiche la puissance trouvée
